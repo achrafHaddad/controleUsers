@@ -1,0 +1,92 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="reg_log.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <form id="sub">
+        <div class="container">
+            <div class="row my-2">
+                <div class="col-4">
+                    <span>Username:</span>
+                </div>
+                <div class="col">
+                    <input type="text" id="user">
+                </div>
+            </div>
+            <div class="row my-2">
+                <div class="col-4">
+                    <span>Mot de passe:</span>
+                </div>
+                <div class="col">
+                    <input type="password" id="pass">
+                </div>
+            </div>
+            <div class="row my-2">
+                <div class="col-4">
+                    <span>E-mail:</span>
+                </div>
+                <div class="col">
+                    <input type="email" id="mail">
+                </div>
+            </div>
+            <div class="row my-2">
+                <div class="col-4">
+                    <span>Address:</span>
+                </div>
+                <div class="col">
+                    <input type="text" id="address">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-center my-2">
+                    <button type="submit">submit</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        const user = document.querySelector("#user");
+        const pass = document.querySelector("#pass");
+        const mail = document.querySelector("#mail");
+        const address = document.querySelector("#address");
+        const sub = document.querySelector("#sub");
+        let rand = Math.floor(Math.random()*1000);
+        let use = {
+            id: rand,
+            username: " ",
+            password: " ",
+            email: " ",
+            address:""
+        };
+        sub.addEventListener("submit", e => {
+            e.preventDefault();
+
+            use = {
+                id: rand,
+                username: user.value,
+                password: pass.value,
+                email: mail.value,
+                address: address.value,
+
+            };
+            let loc_store= JSON.parse(localStorage.getItem("user")) || [];
+            //loc_store = loc_store ? loc_store.split(',') : [];
+            loc_store.push(use);
+            localStorage.setItem("user",JSON.stringify(loc_store));
+            console.log(loc_store);
+            
+        });
+
+
+    </script>
+</body>
+
+</html>

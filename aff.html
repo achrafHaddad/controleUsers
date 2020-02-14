@@ -1,0 +1,120 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="reg_log.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>user</h1>
+    <div>
+        E-mail <span id="mail"></span>
+    </div>
+    <div>
+        Address <span id="addr"></span>
+    </div>
+    <form id="sub">
+        <label for="cars">Marque de voiture</label>
+        <select id="cars">
+            <option value="BMW">BMW</option>
+            <option value="Renault">Renault</option>
+            <option value="Opel">Opel</option>
+            <option value="Marcedes">Mercedes</option>
+            <option value="KIA">KIA</option>
+        </select> <br>
+        <label for="color">Couleur de votre voiture</label>
+        <select id="color">
+            <option value="Noir">Black</option>
+            <option value="Rouge">Red</option>
+            <option value="Bleu">Blue</option>
+            <option value="Blanc">White</option>
+        </select> <br>
+        <button type="submit">Submit</button>
+    </form>
+    <ul id="list">
+        <!-- <li>
+            <div>
+                you really own a
+                <span id="col"></span>
+                <span id="car"></span>
+                <span>???</span>
+            </div>
+        </li> -->
+    </ul>
+    <script>
+        let title = document.querySelector("h1");
+        let mail = document.querySelector("#mail");
+        let addr = document.querySelector("#addr");
+        let store = JSON.parse(localStorage.getItem("con_user"));
+        // console.log(store);
+        title.innerText = store.username;
+        mail.innerText = store.email;
+        addr.innerText = store.address;
+
+        let sub = document.querySelector("#sub");
+        let car = document.querySelector("#cars");
+        let col = document.querySelector("#color");
+        let rand = Math.floor(Math.random() * 1000);
+        let voit = {
+            id: store.id,
+            id_car: "",
+            marque: "",
+            couleur: ""
+        };
+
+
+
+
+        sub.addEventListener("submit", e => {
+            // e.preventDefault();
+            let car_y = car.options[car.selectedIndex].text;
+            let col_y = col.options[col.selectedIndex].text;
+            // console.log(car_y);
+            voit = {
+                id: store.id,
+                id_car: rand,
+                marque: car_y,
+                couleur: col_y
+            };
+            let loc_store = JSON.parse(localStorage.getItem("cars")) || [];
+            loc_store.push(voit);
+            localStorage.setItem("cars", JSON.stringify(loc_store));
+            // console.log(loc_store);
+            
+
+        });
+        let gen_car = (car) => {
+            let html = `
+            <li>
+            <div>
+                you really own a 
+                <span id="col${car.id_car}">${car.couleur}</span>
+                <span id="car">${car.marque}</span>
+                <span>???</span>
+            </div>
+            </li>
+            `;
+            list.innerHTML += html;
+        };
+        let list = document.querySelector("#list");
+        // let col_car = document.querySelector("#col");
+        // let car_id = document.querySelector("#car");
+        let store_car = JSON.parse(localStorage.getItem("cars"));
+        for (let i = 0; i < store_car.length; i++) {
+            if (store_car[i].id == store.id) {
+                // col_car.innerText = store_car[i].couleur;
+                // car_id.innerText = store_car[i].marque;
+                // console.log(store_car[i]);
+                gen_car(store_car[i]);
+            };
+        };
+        
+
+    </script>
+</body>
+
+</html>

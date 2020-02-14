@@ -1,0 +1,84 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="reg_log.css" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <ul>
+      <!-- <li>
+            <span></span>
+            <span></span>
+            <button>delete</button>
+            <button>affiche</button>
+        </li> -->
+    </ul>
+
+    <script>
+      let list = document.querySelector("ul");
+      let gen_user = user => {
+        let html = `
+            <li>
+            <span>${user.id}</span>
+            <span>${user.username}</span>
+            <button class="delete">delete</button>
+            <button class="affiche">affiche</button>
+            </li>
+            `;
+        list.innerHTML += html;
+      };
+
+      let store = JSON.parse(localStorage.getItem("user"));
+      let store_cars = JSON.parse(localStorage.getItem("cars"));
+      // console.log(store);
+
+      for (let i = 0; i < store.length; i++) {
+        gen_user(store[i]);
+      }
+      let del = document.querySelectorAll(".delete");
+      let aff = document.querySelectorAll(".affiche");
+      del.forEach(supp => {
+        supp.addEventListener("click", e => {
+          // console.log(e.target.parentElement.innerText.slice(0, 3));
+
+          for (let i = 0; i < store.length; i++) {
+            let id = e.target.parentElement.innerText.slice(0, 3);
+            const cars = store_cars.filter(x => x.id != id);
+            store_cars = cars;
+            // console.log(c);
+            if (id == store[i].id) {
+              store.splice(i, 1);
+
+              e.target.parentElement.remove();
+              // console.log(store);
+            }
+          }
+
+          localStorage.setItem("user", JSON.stringify(store));
+          localStorage.setItem("cars", JSON.stringify(store_cars));
+        });
+      });
+
+      aff.forEach(affiche => {
+        affiche.addEventListener("click", e => {
+          let id = e.target.parentElement.innerText.slice(0, 3);
+          // console.log(e.target.parentElement.innerText.slice(0,3));
+          for (let i = 0; i < store.length; i++) {
+            if (id == store[i].id) {
+              localStorage.setItem("con_user", JSON.stringify(store[i]));
+              window.open("aff.html","_blank");
+            };
+          };
+        });
+      });
+    </script>
+  </body>
+</html>
